@@ -1,18 +1,33 @@
+using System.Collections;
 using UnityEngine;
 
 public class CreateManager : MonoBehaviour
 {
-    [SerializeField] GameObject food;
+    [SerializeField] GameObject[] foods;
     [SerializeField] GameObject clone;
-    [SerializeField] float time;
+    [SerializeField] int count;
 
-    void Update()
+    WaitForSeconds waitForSeconds = new WaitForSeconds(3.0f);
+
+
+
+    private void Start()
     {
-        time += Time.deltaTime;
-        if (time >= 3.0f)
+        StartCoroutine(Create());
+
+
+    }
+
+    IEnumerator Create() //Todo - Fix bug
+    {
+        while (count < foods.Length)
         {
-            clone = Instantiate(food);
-            time = 0.0f;
+            if (clone == null)
+            {
+                clone = Instantiate(foods[count++]);
+            }
+
+            yield return waitForSeconds;
         }
     }
 }
