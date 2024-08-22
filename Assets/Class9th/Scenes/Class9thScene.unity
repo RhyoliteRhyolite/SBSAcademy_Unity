@@ -281,8 +281,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61efc056f08ea334eaa4569efa727679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  food: {fileID: 7263759594113486875, guid: af278faef9ad6ff41bd04cf029afff51, type: 3}
+  foods:
+  - {fileID: 1355904465571193119, guid: 7cccd61a00fc41c4f84929f090673591, type: 3}
+  - {fileID: 7263759594113486875, guid: af278faef9ad6ff41bd04cf029afff51, type: 3}
+  - {fileID: 3822932632034019992, guid: 4ae75bfd025f0f744b85195485e829f8, type: 3}
+  - {fileID: 6066909530010716417, guid: 02f31dd076a5d82419beefe38bace46e, type: 3}
   clone: {fileID: 0}
+  count: 0
 --- !u!4 &1095861198
 Transform:
   m_ObjectHideFlags: 0
