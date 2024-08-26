@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 public enum State
 {
@@ -9,6 +10,16 @@ public enum State
 public class Knight : MonoBehaviour
 {
     [SerializeField] State state;
+    [SerializeField] Animator animator;
+    [SerializeField] float speed = 2.5f;
+
+    private WaitForSeconds waitForSeconds = new WaitForSeconds(5.0f);
+
+    private void Start()
+    {
+        state = State.WALK;
+        animator = GetComponent<Animator>();
+    }
 
     private void Update()
     {
@@ -25,64 +36,36 @@ public class Knight : MonoBehaviour
                 break;
         }
     }
-
-    #region State
     public void Walk()
     {
-        gameObject.transform.position = Vector3.forward;
+        animator.SetBool("Attack", false);
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
     public void Attack()
     {
-        Debug.Log("Attack");
+        animator.SetBool("Attack", true);
+
     }
     public void Die()
     {
-        Debug.Log("Die");
+        animator.Play("Die");
     }
-    #endregion
-    #region OnTrigger
+    private IEnumerator KnockBack(Collider other)
+    {
+        yield return waitForSeconds;
+
+        other.transform.position += new Vector3(0, 0, -3);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        // 게임 오브젝트가 물리적이지 않은 충돌을 했을 때 이벤트 함수
+        state = State.ATTACK;
 
-
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        // 게임 오브젝트가 물리적이지 않은 충돌 중일 때 이벤트 함수
-
+        StartCoroutine(KnockBack(other));
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // 게임 오브젝트가 물리적이지 않은 충돌을 벗어났을 때 이벤트 함수
-
+        state = State.DIE;
     }
-    #endregion
-    #region OnCollision
-    private void OnCollisionEnter(Collision collision)
-    {
-        // OnColiisionEnter() : 겜 오브젝트가 물리적 충돌을 시작할 때
-        //                     호출되는 이벤트 함수.
-
-
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        // OnColiisionStay() : 겜 오브젝트가 물리적 충돌 중일 때
-        //                     호출되는 이벤트 함수.
-
-
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        // OnColiisionExit() : 겜 옫브젝트가 물리적 충돌을 벗어났을 때
-        //                     호출되는 이벤트 함수.
-
-
-    }
-    #endregion
 }
